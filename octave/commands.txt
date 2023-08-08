@@ -1,0 +1,10 @@
+swig -c++ -octave my_factorial.i
+
+mkoctfile my_factorial_wrap.cxx my_factorial.cpp
+
+mkoctfile my_factorial_wrap.cxx my_factorial.cpp -o my_factorial.oct
+
+octave
+octave:1> my_factorial(5)
+ans = 120
+

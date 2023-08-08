@@ -1,0 +1,15 @@
+# Steps
+swig -c++ -r -o factorial_wrap.cpp factorial.i
+g++ -shared -o factorial.so factorial.cpp factorial_wrap.cpp -fPIC -I/usr/share/R/include
+open R
+dyn.load(paste("factorialR", .Platform$dynlib.ext, sep=""))
+source("factorial.R")
+cacheMetaData(1)
+factorial(5)
+
+# CMAKE
+mkdir build; cd build
+cmake ..
+make
+python factorial_test.py
+
