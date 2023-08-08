@@ -8,7 +8,8 @@ In this repository, we provide a simple integration example using CMake files, d
 This approach not only saves development time but also ensures consistency across different language bindings. The example serves as a practical guide for those looking to explore the efficiency and flexibility of SWIG, making it an ideal choice for developers seeking to work across multiple languages.
 
 # Compile
-```
+```sh
+git clone github.com/gtoscano/SwigFactorial
 mkdir build
 cd build
 cmake ..
