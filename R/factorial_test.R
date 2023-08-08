@@ -1,5 +1,5 @@
 
-dyn.load("factorialR.so")
-source("factorial.R")
+dyn.load("rfactorial.so")
+source("rfactorial.R")
 print(factorial(5))
 
