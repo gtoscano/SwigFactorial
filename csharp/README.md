@@ -34,41 +34,26 @@ unsigned long long calc_factorial(int n) {
 
 ## Create SWIG Interface file (factorial.i)
 ```
-#ifndef FACTORIAL_H
-#define FACTORIAL_H
+%module csharp_factorial
 
-extern "C" {
-unsigned long long calc_factorial(int n);
-}
+%{
+#include "factorial.h"
+%}
 
-#endif
+%include "factorial.h"
+
 ```
 
-##    Generate Java wrappers with SWIG: Next, generate the Java wrapper code with SWIG:
-```sh
-swig -c++ -csharp factorial.i
-```
-
-## Compile the C++ Code 
-
-```csh
-g++ -c -fpic factorial.cpp factorial_wrap.cxx -I/usr/lib/mono/4.5
-g++ -shared factorial.o factorial_wrap.o -o factorial.so
-```
-## Make the new library available to the mcs
-```sh
-ldd /path/factorial.so
-```
-
-## Write the C# code (Main.cs)
-```cs
+## Write the C# code to test the library (Main.cs)
+```csharp
 // Main.cs
 using System.Runtime.InteropServices;
 using System;
 
 public static class NativeMethods
 {
-    [DllImport("/home/gtoscano/projects/swig/csharp/factorial.so")]
+    //[DllImport("/home/gtoscano/projects/swig/csharp/build/libcsharp_factorial.so")]
+    [DllImport("csharp_factorial")] //the file is called libcsharp_factorial.so
     public static extern int calc_factorial(int n);
 }
 public class MainClass
@@ -82,9 +67,49 @@ public class MainClass
 
 ```
 
-## Compile the C# code
+## CMake
 ```
-mcs Main.cs factorial.cs factorialPINVOKE.cs
+mkdir build
+cd build
+cmake ..
+make
 mono Main.exe
 ```
+
+
+
+## Manual Compilation
+###    Generate C# wrappers with SWIG:
+```sh
+swig -c++ -csharp factorial.i
+```
+
+### Compile the C++ Code 
+
+```sh
+g++ -c -fpic factorial.cpp factorial_wrap.cxx -I/usr/lib/mono/4.5
+g++ -shared factorial.o factorial_wrap.o -o libcsharp_factorial.so
+```
+
+### Compile the C# code
+```
+mcs Main.cs csharp_factorial.cs csharp_factorialPINVOKE.cs
+```
+
+### Execute the executable code
+```
+# if you don not want to add an entry to the LD_LIBRARY_PATH, you can put the full path on Dllimport in Main.cs file.
+mono Main.exe
+```
+
+
+## In case of trouble finding the dll library
+```sh
+# 
+ldd /path/csharp_factorial.so
+# OR
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/PATH_WHERE_IS_YOUR_BUID/build
+# OR Complie the full path of the library in DllImport
+```
+
 

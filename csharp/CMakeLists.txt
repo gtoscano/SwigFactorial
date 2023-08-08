@@ -20,16 +20,16 @@ set_source_files_properties(factorial.i PROPERTIES CPLUSPLUS ON)
 set_source_files_properties(factorial.i PROPERTIES SWIG_FLAGS "-namespace;Factorial")
 
 # Define SWIG module and link with shared library
-swig_add_library(factorial TYPE SHARED LANGUAGE csharp SOURCES factorial.i factorial.cpp)
-set_target_properties(factorial PROPERTIES OUTPUT_NAME "libcsharp_factorial")
+swig_add_library(csharp_factorial TYPE SHARED LANGUAGE csharp SOURCES factorial.i factorial.cpp)
+set_target_properties(csharp_factorial PROPERTIES OUTPUT_NAME "libcsharp_factorial")
 
 # Custom target to compile C# code
 add_custom_target(Main ALL
-                  COMMAND mcs -out:Main.exe ${CMAKE_CURRENT_SOURCE_DIR}/Main.cs ${CMAKE_CURRENT_BINARY_DIR}/factorial.cs ${CMAKE_CURRENT_BINARY_DIR}/factorialPINVOKE.cs
-                  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/factorial.cs ${CMAKE_CURRENT_BINARY_DIR}/factorialPINVOKE.cs
+                  COMMAND mcs -out:Main.exe ${CMAKE_CURRENT_SOURCE_DIR}/Main.cs ${CMAKE_CURRENT_BINARY_DIR}/csharp_factorial.cs ${CMAKE_CURRENT_BINARY_DIR}/csharp_factorialPINVOKE.cs
+                  DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/csharp_factorial.cs ${CMAKE_CURRENT_BINARY_DIR}/csharp_factorialPINVOKE.cs
                   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
 )
 
 # Depend on SWIG target
-add_dependencies(Main factorial)
+add_dependencies(Main csharp_factorial)
 
