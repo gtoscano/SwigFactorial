@@ -5,8 +5,111 @@ As a developer who primarily works in C/C++, I recognize the importance of makin
 
 In this repository, we provide a simple integration example using CMake files, demonstrating how to bridge a factorial function written in C/C++ with languages such as C#, Go, Java, Lua, Octave, Python, and R. This approach not only saves development time but also ensures consistency across different language bindings. The example serves as a practical guide for those looking to explore the efficiency and flexibility of SWIG, making it a good choice for developers seeking to work across multiple languages.
 
+## The code in C/C++ (iterative version)
+```C
+#include "factorial.h"
 
-# Compile
+unsigned long long factorial(int n) {
+    unsigned long long result = 1;
+    for(int i = 1; i <= n; ++i) {
+        result *= i;
+    }
+    return result;
+}
+```
+## Tree Structure
+The project has independent directories for each of the tested programming languages. Below, you'll find the structure of the project
+
+```
+SwigFactorial
+├── CMakeLists.txt
+├── csharp
+│   ├── CMakeLists.txt
+│   ├── factorial.cpp
+│   ├── factorial.h
+│   ├── factorial.i
+│   ├── Main.cs
+│   └── README.md
+├── golang
+│   ├── libgofact
+│   ├── main.go
+│   └── README.md
+├── java
+│   ├── CMakeLists.txt
+│   ├── commands.md
+│   ├── factorial.cpp
+│   ├── factorial.h
+│   ├── factorial.i
+│   ├── Main.java
+│   └── README.md
+├── LICENSE
+├── lua
+│   ├── CMakeLists.txt
+│   ├── factorial.cpp
+│   ├── factorial.h
+│   ├── factorial.i
+│   ├── factorial_test.lua
+│   └── README.md
+├── octave
+│   ├── CMakeLists.txt
+│   ├── commands.txt
+│   ├── myfactorial.cpp
+│   ├── myfactorial.h
+│   ├── myfactorial.i
+│   └── README.md
+├── python
+│   ├── CMakeLists.txt
+│   ├── commands.txt
+│   ├── factorial.cpp
+│   ├── factorial.h
+│   ├── factorial.i
+│   ├── factorial_test.py
+│   └── README.md
+├── R
+│   ├── CMakeLists.txt
+│   ├── factorial.cpp
+│   ├── factorial.h
+│   ├── factorial.i
+│   └── factorial_test.R
+├── README.md
+└── TREE.md
+```
+### Testing a specific programming language.
+Each programming language directory has its own README.md file, where you can find specific notes for building the interface, and executing the code.
+
+Below you'll find a link to the different README.md files.
+- [c# README](csharp/README.md)
+- [go README](golang/README.md)
+- [java README](java/README.md)
+- [lua README](lua/README.md)
+- [octave README](octave/README.md)
+- [python README](python/README.md)
+- [r README](R/README.md)
+- [General README (this file)](README.md)
+
+For testing a specific programming language, just follow the following steps:
+```sh
+cd programming_language_directory
+# READ README.md
+mkdir build
+cd build
+cmake ..
+make
+```
+
+### Python example
+
+```sh
+cd python 
+mkdir build
+cd build
+cmake ..
+make
+python factorial_test.py
+```
+
+
+## Compile all the examples include in the project
 ```sh
 git clone github.com/gtoscano/SwigFactorial
 mkdir build
@@ -15,14 +118,14 @@ cmake ..
 make
 ```
 
-# Execution 
-## Execution c#
+## Execution 
+### Execution c#
 ```sh
 cd csharp
 mono Main.exe
 ```
 
-## Execution go
+### Execution go
 For a better explanation, please read /golang/README.md
 ```sh
 go get github.com/gtoscano/libgofact
@@ -35,7 +138,7 @@ go run main.go
 
 ```
 
-## Execution java
+### Execution java
 ```sh
 cd java 
 java -Djava.library.path=. Main
@@ -48,7 +151,7 @@ cd lua
 lua factorial_test.lua
 ```
 
-## Execution octave
+### Execution octave
 
 
 ```sh
@@ -59,13 +162,13 @@ octave:1> myfactorial(5)
 
 ```
 
-## Execution python
+### Execution python
 ```sh
 cd python
 python factorial_test.py
 ```
 
-## Execution R
+### Execution R
 ```sh
 cd R 
 Rscript factorial_test.R
