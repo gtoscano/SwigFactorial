@@ -23,16 +23,18 @@ set(CMAKE_SWIG_FLAGS "")
 swig_add_library(factorial LANGUAGE java TYPE SHARED SOURCES factorial.i factorial.cpp)
 
 # Rename output to libfactorial.so
-set_target_properties(factorial PROPERTIES OUTPUT_NAME "libfactorial")
+set_target_properties(factorial PROPERTIES OUTPUT_NAME "factorial")
 
 # Find Java compiler
 find_program(JAVAC_EXECUTABLE NAMES javac)
 
 # Custom target to compile Java code
-add_custom_target(CompileJava ALL
-  COMMAND ${JAVAC_EXECUTABLE} ${CMAKE_CURRENT_SOURCE_DIR}/Main.java
+add_custom_command(
+  OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/Main.class
+  COMMAND ${JAVAC_EXECUTABLE} -d ${CMAKE_CURRENT_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/Main.java
   WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}
   COMMENT "Compiling Java code"
   DEPENDS factorial
 )
+add_custom_target(CompileJava ALL DEPENDS ${CMAKE_CURRENT_BINARY_DIR}/Main.class)
 

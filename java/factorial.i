@@ -1,4 +1,4 @@
-%module pyfactorial
+%module factorial
 
 %{
 #include "factorial.h"

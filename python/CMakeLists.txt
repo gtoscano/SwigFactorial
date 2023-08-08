@@ -16,8 +16,8 @@ set_source_files_properties(factorial.i PROPERTIES CPLUSPLUS ON)
 set(SWIG_MODULE_factorial_EXTRA_DEPS factorial.h)
 
 # Add the factorial.cpp file to the project and generate Python bindings
-swig_add_library(factorial LANGUAGE python SOURCES factorial.i factorial.cpp)
-swig_link_libraries(factorial ${PYTHON_LIBRARIES})
+swig_add_library(pyfactorial LANGUAGE python SOURCES factorial.i factorial.cpp)
+swig_link_libraries(pyfactorial ${PYTHON_LIBRARIES})
 
 # Copy the test file to the build directory
 configure_file(factorial_test.py ${CMAKE_CURRENT_BINARY_DIR}/factorial_test.py COPYONLY)
